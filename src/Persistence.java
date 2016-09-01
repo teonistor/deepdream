@@ -11,17 +11,19 @@ public class Persistence implements Serializable {
 	// Auto-generated UID
 	private static final long serialVersionUID = 7758400748873296328L;
 	
+	// Nailed constant
 	private static final String fileName = "persistence";
 	
-	
+	// What we save and what we don't save
 	private File baseDir, refDir, outDir;
 	private transient boolean showHelp;
 
-	
+	// Getters
 	public File baseDir() { return baseDir; }
 	public File refDir() { return refDir; }
 	public File outDir() { return outDir; }
 
+	// Setters which also write the file to disc
 	public void setBaseDir(File baseDir) {
 		this.baseDir = baseDir;
 		persist();
@@ -37,6 +39,9 @@ public class Persistence implements Serializable {
 		persist();
 	}
 
+	/* You only ever auto-show help when the program is run for the first time (persistence
+	 * file was not found)
+	 */
 	public boolean showHelp() {
 		if (showHelp) {
 			showHelp = false;
@@ -45,7 +50,7 @@ public class Persistence implements Serializable {
 		return false;
 	}
 
-	
+	// Private constructor called when an instance cannot be loaded from the file
 	private Persistence() {
 		baseDir = new File(Main.homeDir);
 		refDir = new File(Main.homeDir);
@@ -53,6 +58,9 @@ public class Persistence implements Serializable {
 		showHelp = true;
 	}	
 	
+	/* Make sure previously saved directories still exist
+	 * Make sure transient fields have a value
+	 */
 	private void fix () {
 		if (!baseDir.exists())
 			baseDir = new File(Main.homeDir);
@@ -63,6 +71,7 @@ public class Persistence implements Serializable {
 		showHelp = false;
 	}
 	
+	// Write data to file
 	public void persist() {
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
 			out.writeObject(this);
@@ -71,6 +80,10 @@ public class Persistence implements Serializable {
 		}
 	}
 
+	/* Call this from outside to get an instance
+	 * Attempts to load the previous instance from a file, and if it can't, creates a
+	 * fresh one.
+	 */
 	public static Persistence init() {
 		Persistence p;
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {

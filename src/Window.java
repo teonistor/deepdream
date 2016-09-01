@@ -33,8 +33,8 @@ public class Window extends JFrame implements Runnable {
 	
 	// Constants
 	private static final Dimension DEFAULT_IMGPAN_DIM = new Dimension(50, 50);
-	private static final Insets insets = new Insets(3, 3, 3, 3);
-	private static final String helpText = "Don't leave large images without downscaling. Ask Teo for assistance.";
+	private static final Insets INSETS = new Insets(3, 3, 3, 3);
+	private static final String helpText = "Don't leave large images without downscaling. Ask Teo for assistance."; // TODO
 
 	// Title constructor
 	public Window(Persistence p) throws HeadlessException {
@@ -47,7 +47,7 @@ public class Window extends JFrame implements Runnable {
 	private File base, ref, out;
 	private int complexities;
 
-	// Method-accessible components
+	// All components
 	private JLabel		base_msg = new JLabel("Base image:");
 	private ImgPanel	base_img = new ImgPanel(DEFAULT_IMGPAN_DIM);
 	private JButton		base_browse = new JButton("Browse");
@@ -73,6 +73,8 @@ public class Window extends JFrame implements Runnable {
 	
 	// Window setup
 	public void run() {
+		
+		// Get the previous out dir
 		out = persistence.outDir();
 		
 		// Get the amount of complexity names from the model
@@ -102,37 +104,35 @@ public class Window extends JFrame implements Runnable {
 		// Add components
 		setLayout(new GridBagLayout());
 		
-		add (base_msg,		new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
-		add (base_img,		new GridBagConstraints(1, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
-		add (base_browse,	new GridBagConstraints(2, 0, 1, 1, 0.0, 0.5, GridBagConstraints.SOUTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (base_del,		new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (base_auto,		new GridBagConstraints(2, 1, 1, 1, 0.0, 0.5, GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (base_reso,		new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (ref_msg,		new GridBagConstraints(0, 2, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
-		add (ref_img,		new GridBagConstraints(1, 2, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
-		add (ref_browse,	new GridBagConstraints(2, 2, 1, 1, 0.0, 0.5, GridBagConstraints.SOUTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (ref_del,		new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (ref_auto,		new GridBagConstraints(2, 3, 2, 1, 0.0, 0.5, GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0));
-		add (out_msg1,		new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
-		add (out_dir,		new GridBagConstraints(1, 4, 2, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		add (out_browse,	new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0));
-		add (out_msg2,		new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
-		add (out_name,		new GridBagConstraints(1, 5, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		add (iter_msg,		new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
-		add (iter_sld,		new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		add (complex_msg,	new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
-		add (complex_sld,	new GridBagConstraints(1, 7, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		add (help,			new GridBagConstraints(0, 8, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0));
-		add (ok,			new GridBagConstraints(0, 8, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0));
+		add (base_msg,		new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (base_img,		new GridBagConstraints(1, 0, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, INSETS, 0, 0));
+		add (base_browse,	new GridBagConstraints(2, 0, 1, 1, 0.0, 0.5, GridBagConstraints.SOUTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (base_del,		new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (base_auto,		new GridBagConstraints(2, 1, 1, 1, 0.0, 0.5, GridBagConstraints.NORTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (base_reso,		new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (ref_msg,		new GridBagConstraints(0, 2, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (ref_img,		new GridBagConstraints(1, 2, 1, 2, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, INSETS, 0, 0));
+		add (ref_browse,	new GridBagConstraints(2, 2, 1, 1, 0.0, 0.5, GridBagConstraints.SOUTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (ref_del,		new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (ref_auto,		new GridBagConstraints(2, 3, 2, 1, 0.0, 0.5, GridBagConstraints.NORTH, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (out_msg1,		new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (out_dir,		new GridBagConstraints(1, 4, 2, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
+		add (out_browse,	new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (out_msg2,		new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (out_name,		new GridBagConstraints(1, 5, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
+		add (iter_msg,		new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (iter_sld,		new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
+		add (complex_msg,	new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (complex_sld,	new GridBagConstraints(1, 7, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
+		add (help,			new GridBagConstraints(0, 8, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (ok,			new GridBagConstraints(0, 8, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, INSETS, 0, 0));
 		
 		
 		// Action listeners
 		
 		base_browse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File[] file = new File[1];
-				chooseImage(base_img, file, persistence.baseDir());
-				base = file[0];
+				base = chooseImage(base_img, persistence.baseDir());
 				if (base != null)
 					persistence.setBaseDir(base.getParentFile());
 			}
@@ -147,9 +147,7 @@ public class Window extends JFrame implements Runnable {
 		
 		ref_browse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File[] file = new File[1];
-				chooseImage(ref_img, file, persistence.refDir());
-				ref = file[0];
+				ref = chooseImage(ref_img, persistence.refDir());
 				if (ref != null)
 					persistence.setRefDir(ref.getParentFile());
 			}
@@ -164,11 +162,15 @@ public class Window extends JFrame implements Runnable {
 		
 		out_browse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// Select directory via File Chooser
 				JFileChooser fc = new JFileChooser(out);
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fc.setMultiSelectionEnabled(false);
 				fc.showOpenDialog(Window.this);
 				File file = fc.getSelectedFile();
+				
+				// Persist that directory and display its name
 				if (file != null) {
 					out = file.getAbsoluteFile();
 					out_dir.setText(out.getPath());
@@ -204,10 +206,11 @@ public class Window extends JFrame implements Runnable {
 			inform (helpText);
 	}
 	
-	/* Creates a File Chooser to choose an image, sets the given Image Panel to that image
-	 * and the given File to the corresponding path
+	/* Creates a File Chooser to choose an image
+	 * Sets the given Image Panel to that image
+	 * Returns the chosen file
 	 */
-	private void chooseImage (ImgPanel panel, File[] outFile, File directory) {
+	private File chooseImage (ImgPanel panel, File directory) {
 		JFileChooser fc = new JFileChooser(directory);
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setMultiSelectionEnabled(false);
@@ -218,11 +221,12 @@ public class Window extends JFrame implements Runnable {
 			BufferedImage image = ImageIO.read(file);
 			image.hashCode(); // Touch the image see it's not null
 			panel.setImage(image);
-			outFile[0] = file;
 		}
 		catch (Exception e) {
+			file = null;
 			e.printStackTrace();
 		}
+		return file;
 	}
 	
 	// The actual business of checking everything and invoking Python code
@@ -248,12 +252,16 @@ public class Window extends JFrame implements Runnable {
 		File base = this.base;
 		if (base_auto.isSelected()) {
 			try {
-				base = new File("temp_b", base.getName());
+				// Draw the resized image into a new BufferedImage so it can be saved to a file
 				Image downscaled = base_img.getImage().getScaledInstance(Integer.parseInt(base_reso.getText()), -1, Image.SCALE_DEFAULT);
 				BufferedImage buffered = new BufferedImage(downscaled.getWidth(null), downscaled.getHeight(null), BufferedImage.TYPE_INT_RGB);
 				buffered.createGraphics().drawImage(downscaled, 0, 0, null);
+
+				/* Create a file in a temporary folder
+				 * Extract the file extension so ImageIO knows what format to use
+				 */
+				base = new File("temp_b", base.getName());
 				String[] name = base.getName().split("\\.");
-				
 				base.mkdirs();
 				ImageIO.write(buffered, name[name.length-1], base);
 			}
@@ -268,12 +276,16 @@ public class Window extends JFrame implements Runnable {
 		File ref = this.ref;
 		if (ref_auto.isSelected() && ref != null) {
 			try {
-				ref = new File("temp_r", ref.getName());
+				// Draw the resized image into a new BufferedImage so it can be saved to a file
 				Image downscaled = ref_img.getImage().getScaledInstance(322, -1, Image.SCALE_DEFAULT);
 				BufferedImage buffered = new BufferedImage(downscaled.getWidth(null), downscaled.getHeight(null), BufferedImage.TYPE_INT_RGB);
 				buffered.createGraphics().drawImage(downscaled, 0, 0, null);
+
+				/* Create a file in a temporary folder
+				 * Extract the file extension so ImageIO knows what format to use
+				 */
+				ref = new File("temp_r", ref.getName());
 				String[] name = ref.getName().split("\\.");
-				
 				ref.mkdirs();
 				ImageIO.write(buffered, name[name.length-1], ref);
 			}
@@ -284,7 +296,7 @@ public class Window extends JFrame implements Runnable {
 			}
 		}
 		
-		// Check file extension and add it if missing
+		// Check file extension for output and add it if missing
 		if (!Pattern.matches(".*(\\.jpe?g|\\.png|\\.bmp)", out_name)) {
 			out_name += ".png";
 		}
@@ -303,6 +315,7 @@ public class Window extends JFrame implements Runnable {
 		
 		File out = new File(this.out, out_name);
 		
+		// Run the Python program
 		exec (	"python",
 				Main.pythonScript,
 				base.getPath(),
@@ -311,6 +324,7 @@ public class Window extends JFrame implements Runnable {
 				"0", // TODO Iterations hard-coded for now
 				chosenComplexity);
 		
+		// Delete temporary files
 		if (base_auto.isSelected())
 			base.delete();
 		
@@ -318,39 +332,30 @@ public class Window extends JFrame implements Runnable {
 			ref.delete();
 		}
 		
+		// Bring good news to the user
 		inform ("Done");
 	}
 	
+	/* Executes the given command and arguments
+	 * Syncs the subprocess's stdout and stderr with the current program's
+	 * Waits for the subprocess to complete and returns its return value
+	 */
 	public int exec (String... arg) {
 		try {
-//			Process p = Runtime.getRuntime().exec(arg);
 			ProcessBuilder pb = new ProcessBuilder(arg);
 			pb.redirectError(ProcessBuilder.Redirect.INHERIT);
 			pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 			
 			Process p = pb.start();
-			
-//			BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-//			while (p.isAlive()) {
-//				System.out.println(in.readLine());
-//			}
 			return p.waitFor();
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		return -11;
-	}
-	
-	/* Given the original dimension of an image, calculate a smaller dimension which preserves aspect ratio
-	 * and fits the total number of pixels within the given limit
-	 *
-	public Dimension calculateDownscale (Dimension original, int limit) {
-		int w = original.width;
-		int h = original.height;
 		
-		Not completed
-	}*/
+		return -11; // Such random
+	}
+
 	
 	// Helpful messages
 	public void complain (String str, Object... arg) {
@@ -363,6 +368,7 @@ public class Window extends JFrame implements Runnable {
 		JOptionPane.showMessageDialog(this, String.format(str, arg), "Attention", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
+
 
 class ImgPanel extends JPanel {
 
