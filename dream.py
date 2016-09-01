@@ -1,4 +1,4 @@
- # imports and basic notebook setup
+ # imports
 from cStringIO import StringIO
 import numpy as np
 import scipy.ndimage as nd
@@ -14,15 +14,14 @@ import sys
 # caffe.set_mode_gpu()
 # caffe.set_device(0) # select GPU device if multiple devices exist
 
-# By G
-# Name, base, ref, out, iterations, complexity. Total 6.
+# Arguments: Name, base, ref, out, iterations, complexity. Total 6.
 if len(sys.argv) != 6 :
 	print 'Wrong argument list. Cannot continue.'
 	if len(sys.argv) > 1 :
 		print sys.argv[1]
 	exit()
 
-# By G. Modified showarray to save to an arbitrary location
+# Modified showarray to save to an arbitrary location
 def showarray(a, fmt='jpeg'):
     a = np.uint8(np.clip(a, 0, 255))
     f = sys.argv[3]
@@ -49,7 +48,6 @@ def preprocess(net, img):
     return np.float32(np.rollaxis(img, 2)[::-1]) - net.transformer.mean['data']
 def deprocess(net, img):
     return np.dstack((img + net.transformer.mean['data'])[::-1])
-
 def objective_L2(dst):
     dst.diff[:] = dst.data 
 
@@ -75,8 +73,6 @@ def make_step(net, step_size=1.5, end='inception_4c/output',
     if clip:
         bias = net.transformer.mean['data']
         src.data[:] = np.clip(src.data, -bias, 255-bias)    
-
-
 
 def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, 
               end='inception_4c/output', clip=True, **step_params):
@@ -112,32 +108,19 @@ def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4,
     # returning the resulting image
     return deprocess(net, src.data[0])
 
-# By G. Load a given image
+
+# Load a given image
 img = np.float32(PIL.Image.open(sys.argv[1]))
-#showarray(img)
 
-#By G. Write image
-#PIL.Image.fromarray(img).save(sys.argv[3])
-
-#exit()
-
-#_=deepdream(net, img)
-#PIL.Image.fromarray(img).save(sys.argv[3])
-
-#exit()
-
+# If no reference image is provided, do the default deepdream
 if sys.argv[2] == '0':
-
-# Different end
 	_=deepdream(net, img, end=sys.argv[5])
 
-#exit()
+# If a reference is provided load it and adjust the objective
 else:
-	# Guided generation
-	# By G. Use given guide (reference image)
 	guide = np.float32(PIL.Image.open(sys.argv[2]))
-	#showarray(guide)
 	end = sys.argv[5]
+	
 	h, w = guide.shape[:2]
 	src, dst = net.blobs['data'], net.blobs[end]
 	src.reshape(1,3,h,w)
