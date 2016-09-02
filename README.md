@@ -11,4 +11,7 @@ Requirements:
 To do:
 * Add warning for large images not set to downscale
 * Write help text
+* Teach the GUI to identify a failure in the Python code
 * Implement iterations choice (change # of octaves?)
+* Think about: another slider to choose octaves
+* Think about: ditch sliders in favour of combo box / spinner
