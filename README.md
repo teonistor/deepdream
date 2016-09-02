@@ -15,3 +15,4 @@ To do:
 * Implement iterations choice (change # of octaves?)
 * Think about: another slider to choose octaves
 * Think about: ditch sliders in favour of combo box / spinner
+* For some of the modifications above, some additional "Don't touch this unless you know what you are doing" warnings might be a good idea
