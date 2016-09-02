@@ -10,7 +10,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -78,8 +80,8 @@ public class Window extends JFrame implements Runnable {
 		out = persistence.outDir();
 		
 		// Get the amount of complexity names from the model
-		try {
-			complexities = Integer.parseInt(Main.endingsIn.readLine());
+		try (BufferedReader in = new BufferedReader(new FileReader(Main.endingsFile))) {
+			complexities = Integer.parseInt(in.readLine());
 		}
 		catch (Exception e) {
 			System.err.println("Fatal error!");
@@ -224,6 +226,7 @@ public class Window extends JFrame implements Runnable {
 		}
 		catch (Exception e) {
 			file = null;
+			panel.setImage(null);
 			e.printStackTrace();
 		}
 		return file;
@@ -303,9 +306,9 @@ public class Window extends JFrame implements Runnable {
 		
 		// Get the denomination of the chosen complexity
 		String chosenComplexity = "";
-		try {
-			for (int i = complex_sld.getValue(); i>0 ;i--) {
-				chosenComplexity = Main.endingsIn.readLine();
+		try (BufferedReader in = new BufferedReader(new FileReader(Main.endingsFile))) {
+			for (int i = complex_sld.getValue(); i>=0 ;i--) {
+				chosenComplexity = in.readLine();
 			}
 		} catch (IOException e) {
 			complain ("An error has occurred!\n%s", e);
