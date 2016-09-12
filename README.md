@@ -10,5 +10,4 @@ Requirements:
 
 To do:
 * Make py code actually save different formats not just jpg images with png extensions
-* Teach the GUI to identify a failure in the Python code
 * Add about app to help text

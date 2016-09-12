@@ -348,12 +348,14 @@ public class Window extends JFrame implements Runnable {
 		File out = new File(this.out, out_name);
 		
 		// Run the Python program
-		exec (	"python",
+		int returnVal = exec (
+				"python",
 				Main.pythonScript,
 				base.getPath(),
 				ref == null ? "0" : ref.getPath(),
 				out.getPath(),
-				"0", // TODO Iterations hard-coded for now
+				iter_spin.getValue().toString(),
+				octave_spin.getValue().toString(),
 				chosenComplexity);
 		
 		// Delete temporary files
@@ -365,7 +367,12 @@ public class Window extends JFrame implements Runnable {
 		}
 		
 		// Bring good news to the user
-		inform ("Done");
+		if (returnVal == 0)
+			inform ("Done");
+		
+		// Bring bad news to the user
+		else
+			complain ("There was an error in the underlying Python code.\n(Return value: %d)\n\nCheck your output image, you might still have a partial result.", returnVal);
 	}
 	
 	/* Executes the given command and arguments
@@ -373,6 +380,7 @@ public class Window extends JFrame implements Runnable {
 	 * Waits for the subprocess to complete and returns its return value
 	 */
 	public int exec (String... arg) {
+		
 		try {
 			ProcessBuilder pb = new ProcessBuilder(arg);
 			pb.redirectError(ProcessBuilder.Redirect.INHERIT);
