@@ -14,12 +14,12 @@ import sys
 # caffe.set_mode_gpu()
 # caffe.set_device(0) # select GPU device if multiple devices exist
 
-# Arguments: Name, base, ref, out, iterations, complexity. Total 6.
-if len(sys.argv) != 6 :
+# Arguments: Name, base, ref, out, iterations, octaves, complexity. Total 7.
+if len(sys.argv) != 7 :
 	print 'Wrong argument list. Cannot continue.'
 	if len(sys.argv) > 1 :
-		print sys.argv[1]
-	exit()
+		print sys.argv[1] # In case we wish to test sth
+	exit(-1)
 
 # Modified showarray to save to an arbitrary location
 def showarray(a, fmt='jpeg'):
@@ -74,8 +74,9 @@ def make_step(net, step_size=1.5, end='inception_4c/output',
         bias = net.transformer.mean['data']
         src.data[:] = np.clip(src.data, -bias, 255-bias)    
 
-def deepdream(net, base_img, iter_n=10, octave_n=4, octave_scale=1.4, 
-              end='inception_4c/output', clip=True, **step_params):
+# Original defaults: iter_n=10, octave_n=4, end='inception_4c/output'
+def deepdream(net, base_img, iter_n=int(sys.argv[4]), octave_n=int(sys.argv[5]), 
+              octave_scale=1.4, end=sys.argv[6], clip=True, **step_params):
     # prepare base images for all octaves
     octaves = [preprocess(net, base_img)]
     for i in xrange(octave_n-1):
@@ -114,12 +115,12 @@ img = np.float32(PIL.Image.open(sys.argv[1]))
 
 # If no reference image is provided, do the default deepdream
 if sys.argv[2] == '0':
-	_=deepdream(net, img, end=sys.argv[5])
+	_=deepdream(net, img)
 
 # If a reference is provided load it and adjust the objective
 else:
 	guide = np.float32(PIL.Image.open(sys.argv[2]))
-	end = sys.argv[5]
+	end = sys.argv[6]
 	
 	h, w = guide.shape[:2]
 	src, dst = net.blobs['data'], net.blobs[end]
