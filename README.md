@@ -12,6 +12,3 @@ To do:
 * Make py code actually save different formats not just jpg images with png extensions
 * Teach the GUI to identify a failure in the Python code
 * Add about app to help text
-* Implement iterations choice (change # of octaves?)
-* Think about: another slider to choose octaves
-* Think about: ditch sliders in favour of combo box / spinner

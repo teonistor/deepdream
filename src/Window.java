@@ -45,7 +45,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 public class Window extends JFrame implements Runnable {
 
@@ -92,10 +94,12 @@ public class Window extends JFrame implements Runnable {
 	private JButton		out_browse = new JButton("Browse");
 	private JLabel		out_msg2 = new JLabel("Output file name:");
 	private JTextField	out_name = new JTextField(20);
-	private JLabel		iter_msg = new JLabel("Iterations:");
-	private JSlider		iter_sld = new JSlider(JSlider.HORIZONTAL, 5, 12, 10);
 	private JLabel		complex_msg = new JLabel("Complexity:");
-	private JSlider		complex_sld = new JSlider(JSlider.HORIZONTAL); // TODO find sensible values & load past state from save file
+	private JSlider		complex_sld = new JSlider(JSlider.HORIZONTAL);
+	private JLabel		iter_msg = new JLabel("Iterations per octave:");
+	private JSpinner	iter_spin = new JSpinner(new SpinnerNumberModel(10, 3, 20, 1));
+	private JLabel		octave_msg = new JLabel("Octaves:");
+	private JSpinner	octave_spin = new JSpinner(new SpinnerNumberModel(4, 1, 10, 1));
 	private JButton		ok = new JButton("Go!");
 	private JButton		help = new JButton("Help!");
 	
@@ -126,9 +130,6 @@ public class Window extends JFrame implements Runnable {
 		complex_sld.setMaximum(complexities);
 		complex_sld.setValue(19);
 		
-		// TODO not yet implemented
-		iter_sld.setEnabled(false);
-		
 		// Add components
 		setLayout(new GridBagLayout());
 		
@@ -148,10 +149,12 @@ public class Window extends JFrame implements Runnable {
 		add (out_browse,	new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, INSETS, 0, 0));
 		add (out_msg2,		new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
 		add (out_name,		new GridBagConstraints(1, 5, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
-		add (iter_msg,		new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
-		add (iter_sld,		new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
-		add (complex_msg,	new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
-		add (complex_sld,	new GridBagConstraints(1, 7, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
+		add (complex_msg,	new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (complex_sld,	new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, INSETS, 0, 0));
+		add (iter_msg,		new GridBagConstraints(0, 7, 1, 1, 0.2, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (iter_spin,		new GridBagConstraints(1, 7, 1, 1, 0.3, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (octave_msg,	new GridBagConstraints(2, 7, 1, 1, 0.2, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, INSETS, 0, 0));
+		add (octave_spin,	new GridBagConstraints(3, 7, 1, 1, 0.3, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, INSETS, 0, 0));
 		add (help,			new GridBagConstraints(0, 8, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, INSETS, 0, 0));
 		add (ok,			new GridBagConstraints(0, 8, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, INSETS, 0, 0));
 		
