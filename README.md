@@ -8,5 +8,6 @@ Requirements:
 * Protobuf library
 * A GPU with CUDA support would be great but not necessary
 
-To do:
-* Make py code actually save different formats not just jpg images with png extensions
+To do (?):
+* Display resulting image in the GUI
+* Progress bar

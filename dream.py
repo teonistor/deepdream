@@ -22,10 +22,10 @@ if len(sys.argv) != 7 :
 	exit(-1)
 
 # Modified showarray to save to an arbitrary location
-def showarray(a, fmt='jpeg'):
+def showarray(a):
     a = np.uint8(np.clip(a, 0, 255))
     f = sys.argv[3]
-    PIL.Image.fromarray(a).save(f, fmt)
+    PIL.Image.fromarray(a).save(f)
 #    display(Image(data=f.getvalue()))
     
 model_path = 'model/' # substitute your path here
