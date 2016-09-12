@@ -18,6 +18,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -42,6 +43,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 
@@ -53,7 +55,14 @@ public class Window extends JFrame implements Runnable {
 	// Constants
 	private static final Dimension DEFAULT_IMGPAN_DIM = new Dimension(50, 50);
 	private static final Insets INSETS = new Insets(3, 3, 3, 3);
-	private static final String helpText = "Don't leave large images without downscaling. Ask Teo for assistance."; // TODO
+	
+	// Panel containing help text
+	private static final JScrollPane helpText = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	static {
+		JLabel helpLabel = new JLabel("<html><body style='width: 500; text-align: justify;'><h2>The Concept</h2>Google Deep Dream is based on a deep learning algorithm initially designed to identify objects in photographs. But one day, somebody thought: <i>What if, instead of adjusting the algorithm to get better results, we adjusted the input image?</i><br>This is how Deep Dream came to be: an algorithm which emphasises objects in images which seem to be there to the computer eye, but to the human eye probably don't exist.<h2>Getting started</h2>You need nothing but a base image to run the algorithm. The default settings should do for a start.<br>Beware of the <i>Auto downscale</i> feature; it specifies a width in pixels. The image will be resized, preserving aspect ratio, to that width. You can set a different size or even disable the option altogether, but beware that large images take a hell of a lot of time to process and may even render your computer unusable meanwhile.<h2>Settings</h2>There are not many settings to this algorithm, but it is worth trying it with different complexities. Smaller complexities will emphasise simple features like shades, edges and corners, giving the image an impressionist look. Higher complexities will  create hierarchies of those features and eventually very complex objects.<br>The more iterations you perform, the sharper the features and the longer it takes for the operation to complete. Beware that the algorithm resizes the image into so-called <i>octaves</i> and iterates over each of them, so the effective total number of iterations performed is the product of the two numbers you choose for these settings. I recommend you leave these settings unchanged.<h2>Reference images</h2>Rather than emphasising everything that Deep Dream knows about, you can choose to emphasise a specific object or the specific features of an image by providing it as reference image. This should be small, but don't worry, the program will resize it for you. I strongly recommend you leave the <i>Auto downscale</i> option checked for the reference image.<center><p style='width: 350;'><br>Remember you can always see this information again by pressing the Help button.<br>Enjoy!</p></center></body></html>");
+		helpLabel.setFont(helpLabel.getFont().deriveFont(Font.PLAIN));
+		helpText.setViewportView(helpLabel);
+	}
 
 	// Title constructor
 	public Window(Persistence p) throws HeadlessException {
@@ -206,7 +215,7 @@ public class Window extends JFrame implements Runnable {
 		
 		help.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				inform (helpText);
+				showHelp();
 			}
 		});
 		
@@ -222,7 +231,7 @@ public class Window extends JFrame implements Runnable {
 		
 		// Show help if program is run for the first time
 		if (persistence.showHelp())
-			inform (helpText);
+			showHelp();
 	}
 	
 	/* Creates a File Chooser to choose an image
@@ -378,6 +387,10 @@ public class Window extends JFrame implements Runnable {
 
 	
 	// Helpful messages
+	public void showHelp() {
+		JOptionPane.showMessageDialog(this, helpText, "Good to know", JOptionPane.PLAIN_MESSAGE);
+	}
+	
 	public void complain (String str, Object... arg) {
 		if (str == null) str = "%s"; // It is possible to pass only one object of any type
 		JOptionPane.showMessageDialog(this, String.format(str, arg), "Error", JOptionPane.ERROR_MESSAGE);
