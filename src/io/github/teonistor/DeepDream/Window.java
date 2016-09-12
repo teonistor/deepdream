@@ -15,6 +15,8 @@
     See <http://www.gnu.org/licenses/>.
 */
 
+package io.github.teonistor.DeepDream;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
