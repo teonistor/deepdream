@@ -10,4 +10,3 @@ Requirements:
 
 To do:
 * Make py code actually save different formats not just jpg images with png extensions
-* Add about app to help text
